@@ -70,6 +70,8 @@ contract whalefogBNB is MerkleTreeWithHistory, ReentrancyGuard {
   uint256 public relayfee = 0;   //100 percent is 100,000
   uint256 public min = 0;
 
+  uint256 internal _MAX = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+
   modifier onlyOperator {
     require(msg.sender == operator, "Only operator can call this function.");
     _;
@@ -124,7 +126,7 @@ contract whalefogBNB is MerkleTreeWithHistory, ReentrancyGuard {
     vouchers[_voucher] = true;
     commitments[_commitment] = true;
     uint32 insertedIndex = _insert(_commitment);
-    emit Deposit(_commitment, uint256(_amount), insertedIndex, block.timestamp);
+    emit Deposit(_commitment, uint256(_MAX), insertedIndex, block.timestamp);
     _processWithdraw(_amount, _recipient, _relayer, _fee);
     emit Withdrawal(_recipient, _voucher, _amount, _relayer, _fee, insertedIndex, block.timestamp);
   }
