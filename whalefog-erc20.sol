@@ -116,7 +116,7 @@ contract whalefogERC20 is MerkleTreeWithHistory, ReentrancyGuard {
   function deposit(bytes32 _commitment, uint248 _balance, bytes calldata _proof) external payable nonReentrant {
     require(!commitments[_commitment], "The commitment has been submitted");
     require(_balance >= min ,"deposit balance is less than minimum");
-    require(msg.value >= bnbfee,"msg value is less than bnb fee ");
+    require(msg.value == bnbfee,"msg value is less than bnb fee ");
     
     require(dpVerifier.verifyProof(_proof, [uint256(_balance),uint256(_commitment)]), "Invalid deposit proof");
     require(token.transferFrom(msg.sender,address(this),uint256(_balance)),"erc20 transfer error");

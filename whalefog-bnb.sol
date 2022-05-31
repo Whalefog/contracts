@@ -102,7 +102,7 @@ contract whalefogBNB is MerkleTreeWithHistory, ReentrancyGuard {
   function deposit(bytes32 _commitment, uint248 _balance, bytes calldata _proof) external payable nonReentrant {
     require(!commitments[_commitment], "The commitment has been submitted");
     require(_balance >= min ,"deposit balance is less than minimum");
-    require(msg.value  >= (bnbfee.add(_balance)),"msg value is less than bnb fee and deposit amount");
+    require(msg.value  == (bnbfee.add(_balance)),"msg value is less than bnb fee and deposit amount");
     require(dpVerifier.verifyProof(_proof, [uint256(_balance),uint256(_commitment)]), "Invalid deposit proof");
     
     uint32 insertedIndex = _insert(_commitment);
